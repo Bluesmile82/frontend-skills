@@ -1,5 +1,29 @@
+import React from 'react';
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
+import data from './data.json';
+import dynamic from 'next/dynamic';
+const Radar = dynamic(() => import('../components/radar/radar'));
+
+const nameData = {}
+data.forEach(d => {
+  const updatedD = { ...d };
+  const regex = /(.+)\[(.+)]/;
+  delete updatedD['Your name'];
+  const nameSkills = []
+  Object.keys(updatedD).forEach((currentKey) => {
+    const match = currentKey.match(regex);
+    const category = match && match[1];
+    const skill = match && match[2];
+    const value = updatedD[currentKey].split(',');
+    nameSkills.push({
+      category,
+      skill,
+      value
+    });
+  });
+  nameData[d['Your name']] = nameSkills;
+})
 
 export default function Home() {
   return (
@@ -14,39 +38,29 @@ export default function Home() {
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
 
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
+        <Radar width={600} height={600} />
+        <div className={styles.description}>
+          <ul>
+            {Object.keys(nameData).map((name) => (
+              <li key={name} className={styles.card}>
+                <h2>{name}</h2>
+                {/* <div>
+                  {nameData[name].map((s) => (
+                    <ul>
+                      <li key={name}>
+                        {s.category}
+                        {' / '}
+                        {s.skill}
+                        {' = '}
+                        {s.value.join(' and ')}
+                      </li>
+                    </ul>
+                  ))}
+                </div> */}
+                <Radar width={300} height={300} />
+              </li>
+            ))}
+          </ul>
         </div>
       </main>
 
@@ -61,5 +75,5 @@ export default function Home() {
         </a>
       </footer>
     </div>
-  )
+  );
 }
