@@ -1,19 +1,22 @@
 import React from 'react';
 import { Group } from '@visx/group';
-import letterFrequency from '@visx/mock-data/lib/mocks/letterFrequency';
 import { scaleLinear } from '@visx/scale';
 import { Point } from '@visx/point';
 import { Line, LineRadial } from '@visx/shape';
 
+const expertiseClassification = {
+  'No knowledge': 0,
+  'Basic knowledge': 1,
+  Competent: 2,
+  Expert: 3
+};
+
 const orange = '#ff9933';
 export const pumpkin = '#f5810c';
 const silver = '#d9d9d9';
-export const background = '#FAF7E9';
+export const background = '#FFF';
 
 const degrees = 360;
-const data = letterFrequency.slice(2, 12);
-
-const y = (d) => d.frequency;
 
 const genAngles = (length) =>
   [...new Array(length + 1)].map((_, i) => ({
@@ -57,9 +60,13 @@ const defaultMargin = { top: 40, left: 80, right: 80, bottom: 80 };
 export default function Example({
   width,
   height,
-  levels = 5,
-  margin = defaultMargin
+  levels = 1,
+  data,
+  margin = defaultMargin,
+  selectionFunction
 }) {
+  const y = selectionFunction || (d => d.Expert);
+
   const xMax = width - margin.left - margin.right;
   const yMax = height - margin.top - margin.bottom;
   const radius = Math.min(xMax, yMax) / 2;
@@ -85,26 +92,35 @@ export default function Example({
     <svg width={width} height={height}>
       <rect fill={background} width={width} height={height} rx={14} />
       <Group top={height / 2 - margin.top} left={width / 2}>
-        {[...new Array(levels)].map((_, i) => (
-          <LineRadial
-            key={`web-${i}`}
-            data={webs}
-            angle={(d) => radialScale(d.angle)}
-            radius={((i + 1) * radius) / levels}
-            fill="none"
-            stroke={silver}
-            strokeWidth={2}
-            strokeOpacity={0.8}
-            strokeLinecap="round"
-          />
-        ))}
-        {[...new Array(data.length)].map((_, i) => (
-          <Line
-            key={`radar-line-${i}`}
-            from={zeroPoint}
-            to={points[i]}
-            stroke={silver}
-          />
+        {[...new Array(levels)].map(
+          (_, i) => (
+              <>
+                <LineRadial
+                  key={`web-${i}`}
+                  data={webs}
+                  angle={(d) => radialScale(d.angle)}
+                  radius={((i + 1) * radius) / levels}
+                  fill="none"
+                  stroke={silver}
+                  strokeWidth={5}
+                  strokeOpacity={0.8}
+                  strokeLinecap="round"
+                />
+              </>
+            )
+        )}
+        {[...new Array(data.length)].map((_, i) => console.log(i) || (
+          <>
+            <text x={i} verticalAnchor="start">
+              hi
+            </text>
+            <Line
+              key={`radar-line-${i}`}
+              from={zeroPoint}
+              to={points[i]}
+              stroke={silver}
+            />
+          </>
         ))}
         <polygon
           points={polygonPoints.pointString}
