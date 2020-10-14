@@ -111,9 +111,6 @@ export default function Example({
         )}
         {[...new Array(data.length)].map((_, i) => console.log(i) || (
           <>
-            <text x={i} verticalAnchor="start">
-              hi
-            </text>
             <Line
               key={`radar-line-${i}`}
               from={zeroPoint}
