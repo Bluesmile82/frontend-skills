@@ -5,15 +5,15 @@ import data from './data.json';
 import dynamic from 'next/dynamic';
 const Radar = dynamic(() => import('../components/radar/radar'));
 
-const learningClassification = {
-  "Want to learn": 0,
-  "Learning": 1,
-}
+// const learningClassification = {
+//   "Want to learn": 0,
+//   "Learning": 1,
+// }
 
-const learningInitial = {
-  "Want to learn": 0,
-  "Learning": 0,
-}
+// const learningInitial = {
+//   "Want to learn": 0,
+//   "Learning": 0,
+// }
 
 const expertiseInitial = {
   "No knowledge": 0,
@@ -22,9 +22,9 @@ const expertiseInitial = {
   "Expert": 0,
 }
 
-const notInterestedClassification = {
-  "Not interested": 1
-}
+// const notInterestedClassification = {
+//   "Not interested": 1
+// }
 
 const nameData = {}
 const expertiseData = [];

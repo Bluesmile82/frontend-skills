@@ -4,12 +4,12 @@ import { scaleLinear } from '@visx/scale';
 import { Point } from '@visx/point';
 import { Line, LineRadial } from '@visx/shape';
 
-const expertiseClassification = {
-  'No knowledge': 0,
-  'Basic knowledge': 1,
-  Competent: 2,
-  Expert: 3
-};
+// const expertiseClassification = {
+//   'No knowledge': 0,
+//   'Basic knowledge': 1,
+//   Competent: 2,
+//   Expert: 3
+// };
 
 const orange = '#ff9933';
 export const pumpkin = '#f5810c';
