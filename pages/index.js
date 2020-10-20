@@ -53,13 +53,47 @@ Object.keys(groupedSkills).forEach((skill) => {
     ...valueGroupedNumber
   });
 });
+const SECTIONS = {
+  core: 'core',
+  specialization: 'specialization',
+  integration: 'integration',
+}
+const sectionCategories = {
+  presentational: SECTIONS.core,
+  connections: SECTIONS.core,
+  'git and repositories management': SECTIONS.core,
+  'building and automation tools': SECTIONS.core,
+  'accessibility and seo': SECTIONS.core,
+  javascript: SECTIONS.core,
+  'front end frameworks (react not included)': SECTIONS.core,
+  'react library': SECTIONS.core,
+  Quality: SECTIONS.specialization,
+  'Quality, testing and best practices': SECTIONS.specialization,
+  'visualization libraries': SECTIONS.specialization,
+  'animation, 3d, and fancy': SECTIONS.specialization,
+  mobile: SECTIONS.specialization,
+  performance: SECTIONS.specialization,
+  design: SECTIONS.integration,
+  devops: SECTIONS.integration,
+  'data science': SECTIONS.integration,
+  'back end and apis': SECTIONS.integration,
+  'client interaction and pm': SECTIONS.integration,
+  testing: SECTIONS.integration
+};
 
 const uniqueSkills = uniqBy(allSkills, 'skill');
 const categorySkills = groupBy(uniqueSkills, 'category');
+console.log(categorySkills)
 
 export default function Home() {
   const [selectedCategory, selectCategory] = useState(null);
+  const [selectedSection, selectSection] = useState(null);
   let filteredSkills = uniqueSkills;
+  if (selectedSection) {
+    filteredSkills = uniqueSkills.filter(
+      (skill) => sectionCategories[skill.category] === selectedSection
+    );
+  }
   if (selectedCategory) {
     filteredSkills = uniqueSkills.filter(
       (skill) => skill.category === selectedCategory
@@ -74,15 +108,41 @@ export default function Home() {
 
       <main className={styles.main}>
         <h1 className={styles.title}>Vizzuality Frontend skills</h1>
-        <div className={styles.categories}>
+        <div className={styles.sections}>
           {categorySkills &&
-            Object.keys(categorySkills).map((category) => (
-              <button
-                className={cx({ [styles.blue]: category === selectedCategory })}
-                onClick={() => selectCategory(selectedCategory === category ? null : category)}
-              >
-                {category}
-              </button>
+            Object.keys(SECTIONS).map((section) => (
+              <div className={cx(styles.section, styles[section])}>
+                <button
+                  className={cx(styles.sectionTitle, {
+                    [styles.blue]: section === selectedSection
+                  })}
+                  onClick={() =>
+                    selectSection(
+                      selectedSection === section ? null : section
+                    )
+                  }
+                >
+                  {section}
+                </button>
+                <div className={styles.categories}>
+                  {Object.keys(categorySkills)
+                    .filter((category) => console.log(sectionCategories[category], section) || sectionCategories[category] === section)
+                    .map((category) => (
+                      <button
+                        className={cx({
+                          [styles.blue]: category === selectedCategory
+                        })}
+                        onClick={() =>
+                          selectCategory(
+                            selectedCategory === category ? null : category
+                          )
+                        }
+                      >
+                        {category}
+                      </button>
+                    ))}
+                </div>
+              </div>
             ))}
         </div>
         <Radar

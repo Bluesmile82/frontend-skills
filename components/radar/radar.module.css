@@ -1,5 +1,6 @@
-.legendTitle {
-  margin-bottom: 1rem;
+.radar {
+  display: flex;
+  align-items: center;
 }
 
 .legendItem {
@@ -17,8 +18,9 @@
   background-color: transparent;
   border: none;
   cursor: pointer;
-  color: gray;
+  color: lightgray;
 }
+
 .active {
   color: black;
 }

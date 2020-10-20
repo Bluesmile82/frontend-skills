@@ -14,3 +14,9 @@ a {
 * {
   box-sizing: border-box;
 }
+
+button {
+  background-color: transparent;
+  border: lightblue 1px solid;
+  padding: 5px 10px;
+}

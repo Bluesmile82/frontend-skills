@@ -18,7 +18,6 @@ const colors = {
 
 export default function BasicRadarChart(props) {
   const { width, height, data, skills } = props;
-  console.log(data);
   const [selectedValues, selectValues] = useState(data.map(d => d.name));
   const domainNames = skills.map(s => s.skill);
   const domains = domainNames.map(name => ({
@@ -39,24 +38,7 @@ export default function BasicRadarChart(props) {
       : selectValues([...selectedValues, value]);
   };
   return (
-    <>
-      <div className={styles.legend}>
-        <div className={styles.legendTitle}>Legend</div>
-        {dataWithColors.map((d) => (
-          <div className={styles.legendItem}>
-            <span
-              className={styles.legendColor}
-              style={{ backgroundColor: d.fill }}
-            />
-            <button
-              className={cx(styles.legendButton, {[styles.active]: selectedValues.includes(d.name)})}
-              onClick={() => handleLegendClick(d.name)}
-            >
-              {d.name}
-            </button>
-          </div>
-        ))}
-      </div>
+    <div className={styles.radar}>
       <RadarChart
         data={filterSelectedData}
         tickFormat={(t) => wideFormat(t)}
@@ -87,6 +69,24 @@ export default function BasicRadarChart(props) {
           }
         }}
       />
-    </>
+      <div className={styles.legend}>
+        {dataWithColors.map((d) => (
+          <div className={styles.legendItem}>
+            <span
+              className={styles.legendColor}
+              style={{ backgroundColor: d.fill }}
+            />
+            <button
+              className={cx(styles.legendButton, {
+                [styles.active]: selectedValues.includes(d.name)
+              })}
+              onClick={() => handleLegendClick(d.name)}
+            >
+              {d.name}
+            </button>
+          </div>
+        ))}
+      </div>
+    </div>
   );
 }
