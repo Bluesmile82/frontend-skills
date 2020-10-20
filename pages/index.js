@@ -83,7 +83,6 @@ const sectionCategories = {
 
 const uniqueSkills = uniqBy(allSkills, 'skill');
 const categorySkills = groupBy(uniqueSkills, 'category');
-console.log(categorySkills)
 
 export default function Home() {
   const [selectedCategory, selectCategory] = useState(null);
@@ -126,7 +125,7 @@ export default function Home() {
                 </button>
                 <div className={styles.categories}>
                   {Object.keys(categorySkills)
-                    .filter((category) => console.log(sectionCategories[category], section) || sectionCategories[category] === section)
+                    .filter((category) => sectionCategories[category] === section)
                     .map((category) => (
                       <button
                         className={cx({
