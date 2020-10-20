@@ -121,3 +121,13 @@
     flex-direction: column;
   }
 }
+
+.categories {
+  display: flex;
+  max-width: 80vw;
+  flex-wrap: wrap;
+}
+
+.blue {
+  background-color: lightblue;
+}

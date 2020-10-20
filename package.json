@@ -16,6 +16,7 @@
     "@visx/shape": "^1.0.0",
     "@visx/text": "^1.0.0",
     "child_process": "^1.0.2",
+    "classnames": "^2.2.6",
     "d3-format": "^2.0.0",
     "google-spreadsheet": "^3.0.13",
     "lodash": "^4.17.20",

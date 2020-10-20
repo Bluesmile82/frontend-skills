@@ -33,4 +33,4 @@ yarn-error.log*
 # vercel
 .vercel
 
-pages/data.json
+data/data.json

@@ -1,0 +1,24 @@
+.legendTitle {
+  margin-bottom: 1rem;
+}
+
+.legendItem {
+  display: flex;
+  margin-bottom: 0.3rem;
+}
+
+.legendColor {
+  width: 20px;
+  height: 20px;
+  margin-right: 1rem;
+}
+
+.legendButton {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  color: gray;
+}
+.active {
+  color: black;
+}
