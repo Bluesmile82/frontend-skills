@@ -1,9 +1,11 @@
 import React, { createContext, useState } from 'react';
 import Head from 'next/head'
-import styles from '../styles/Home.module.css'
+import styles from '../styles/Home.module.scss'
 import data from '../data/data.json';
+import { SECTIONS, sectionCategories } from '../data/sections';
 import groupBy from 'lodash/groupBy';
 import trim from 'lodash/trim';
+import capitalize from 'lodash/capitalize';
 import dynamic from 'next/dynamic';
 import { uniqBy } from 'lodash';
 import cx from 'classnames';
@@ -13,17 +15,15 @@ const nameData = {}
 const totalSkills = [];
 const allSkills = [];
 data.forEach(d => {
-  const updatedD = { ...d };
   const regex = /(.+)\[(.+)]/;
   const parseText = (text) => trim(text.toLowerCase());
-  Object.keys(updatedD).forEach((currentKey) => {
+  Object.keys(d).forEach((currentKey) => {
     const match = currentKey.match(regex);
     const category = match && parseText(match[1]);
     const skill = match && parseText(match[2]);
-    const value = updatedD[currentKey]
+    const value = d[currentKey]
       .split(',')
       .map(parseText);
-
     if (skill) {
       allSkills.push({ skill, category });
     }
@@ -53,52 +53,49 @@ Object.keys(groupedSkills).forEach((skill) => {
     ...valueGroupedNumber
   });
 });
-const SECTIONS = {
-  core: 'core',
-  specialization: 'specialization',
-  integration: 'integration',
-}
-const sectionCategories = {
-  presentational: SECTIONS.core,
-  connections: SECTIONS.core,
-  'git and repositories management': SECTIONS.core,
-  'building and automation tools': SECTIONS.core,
-  javascript: SECTIONS.core,
-  'front end frameworks/libraries': SECTIONS.core,
-  'react': SECTIONS.core,
-  'state management': SECTIONS.core,
-  'accessibility and seo': SECTIONS.core,
-  'quality, testing and best practices': SECTIONS.specialization,
-  'visualization libraries': SECTIONS.specialization,
-  'map libraries and map-related': SECTIONS.specialization,
-  'animation, 3d, and fancy': SECTIONS.specialization,
-  mobile: SECTIONS.specialization,
-  architecture: SECTIONS.specialization,
-  performance: SECTIONS.specialization,
-  design: SECTIONS.integration,
-  devops: SECTIONS.integration,
-  'data science': SECTIONS.integration,
-  'back end and apis': SECTIONS.integration,
-  'client interaction and pm': SECTIONS.integration,
-};
+const groupedSkillsBySkill = groupBy(totalSkills, 'skill');
 
 const uniqueSkills = uniqBy(allSkills, 'skill');
 const categorySkills = groupBy(uniqueSkills, 'category');
 
+const SkilledNames = ({ selectedSkill, value }) => {
+  if (!selectedSkill || !groupedSkillsBySkill[selectedSkill]) return null;
+  const valueSkills = groupedSkillsBySkill[selectedSkill].filter((s) => s.value === value);
+  if (!valueSkills) return null;
+  return (
+    <div className={styles.developerSkill}>
+      <div className={styles.developerSkillTitle}>{capitalize(value)}</div>
+      <div>
+        {valueSkills.map((s) => (
+          <div>{s.name}</div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+const getFilteredSkills = (skills, section, category) => {
+  let filteredSkills = skills;
+  if (section) {
+    filteredSkills = skills.filter(
+      (skill) => sectionCategories[skill.category] === section
+    );
+  }
+  if (category) {
+    filteredSkills = skills.filter(
+      (skill) => skill.category === category
+    );
+  }
+  return filteredSkills
+};
+
 export default function Home() {
   const [selectedCategory, selectCategory] = useState(null);
   const [selectedSection, selectSection] = useState(null);
-  let filteredSkills = uniqueSkills;
-  if (selectedSection) {
-    filteredSkills = uniqueSkills.filter(
-      (skill) => sectionCategories[skill.category] === selectedSection
-    );
-  }
-  if (selectedCategory) {
-    filteredSkills = uniqueSkills.filter(
-      (skill) => skill.category === selectedCategory
-    );
-  }
+  const [selectedSkill, selectSkill] = useState(null);
+
+  const filteredSkills = getFilteredSkills(uniqueSkills, selectedSection, selectedCategory);
+
   return (
     <div className={styles.container}>
       <Head>
@@ -117,16 +114,16 @@ export default function Home() {
                     [styles.blue]: section === selectedSection
                   })}
                   onClick={() =>
-                    selectSection(
-                      selectedSection === section ? null : section
-                    )
+                    selectSection(selectedSection === section ? null : section)
                   }
                 >
                   {section}
                 </button>
                 <div className={styles.categories}>
                   {Object.keys(categorySkills)
-                    .filter((category) => sectionCategories[category] === section)
+                    .filter(
+                      (category) => sectionCategories[category] === section
+                    )
                     .map((category) => (
                       <button
                         className={cx({
@@ -160,8 +157,36 @@ export default function Home() {
             ))}
           </ul>
         </div>
+        <div className={styles.skillSection}>
+          <label for="skill" className={styles.skillLabel}>
+            Choose a skill:
+          </label>
+          <input
+            list="skills"
+            name="skill"
+            id="skill"
+            onChange={(v) =>
+              console.log(v.target.value) || selectSkill(v.target.value)
+            }
+          />
+          <datalist id="skills">
+            {uniqueSkills
+              .map((s) => s.skill)
+              .map((skill) => (
+                <option value={skill} />
+              ))}
+          </datalist>
+        </div>
+        <div className={styles.skillNames}>
+          <SkilledNames selectedSkill={selectedSkill} value={'expert'} />
+          <SkilledNames selectedSkill={selectedSkill} value={'competent'} />
+          <SkilledNames selectedSkill={selectedSkill} value={'want to learn'} />
+          <SkilledNames
+            selectedSkill={selectedSkill}
+            value={'not interested'}
+          />
+        </div>
       </main>
-      <footer className={styles.footer}></footer>
     </div>
   );
 }

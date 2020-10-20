@@ -2,18 +2,18 @@ import React, { useState } from 'react';
 import { format } from 'd3-format';
 import sortBy from 'lodash/sortBy';
 import { RadarChart } from 'react-vis';
-import styles from './radar.module.css';
+import styles from './radar.module.scss';
 import cx from 'classnames';
 
 const colors = {
-  "competent": 'blue',
-  "learning": 'red',
-  "want to learn": 'magenta',
-  "not interested": 'yellow',
-  "basic knowledge": 'orange',
-  "no knowledge": 'black',
-  "expert": 'green',
- };
+  learning: '#F49F0A',
+  'want to learn': '#EFCA08',
+  'not interested': '#A27E6F',
+  expert: '#11403F',
+  competent: '#2BA4A0',
+  'basic knowledge': '#CFF2F2',
+  'no knowledge': '#ddd'
+};
 
 export default function BasicRadarChart(props) {
   const { width, height, data, skills } = props;
