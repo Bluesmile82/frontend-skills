@@ -46,7 +46,6 @@ export default function BasicRadarChart(props) {
       .filter((d) => domainNames.includes(d))
       .map((skill) => ({ skill, value: valueData[skill] }));
   }
-
   return (
     <div className={styles.radar}>
       <RadarChart
@@ -65,13 +64,8 @@ export default function BasicRadarChart(props) {
           },
           axes: {
             line: {
-              fillOpacity: 0,
-              strokeWidth: 0,
-              strokeOpacity: 0
-            },
-            ticks: {
-              fillOpacity: 0,
-              strokeOpacity: 0
+              strokeWidth: 0.2,
+              strokeOpacity: 0.5
             },
             text: {
               fillOpacity: 0.3
