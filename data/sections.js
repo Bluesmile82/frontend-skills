@@ -10,7 +10,7 @@ export const sectionCategories = {
   'git and repositories management': SECTIONS.core,
   'building and automation tools': SECTIONS.core,
   javascript: SECTIONS.core,
-  'front end frameworks/libraries': SECTIONS.core,
+  'front end frameworks / libraries': SECTIONS.core,
   react: SECTIONS.core,
   'state management': SECTIONS.core,
   'accessibility and seo': SECTIONS.core,

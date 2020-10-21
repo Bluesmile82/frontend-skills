@@ -20,10 +20,9 @@ export default function BasicRadarChart(props) {
   const [selectedValues, selectValues] = useState(data.map(d => d.name));
   const [hoveredCell, setHoveredCell] = useState(null);
   const domainNames = skills.map(s => s.skill);
-  const domains = domainNames.map(name => ({
-    name,
-    domain: [0, 14],
-    getValue: (d) => d[name]
+  const domains = domainNames.map((skill) => ({
+    name: skill,
+    domain: [0, 14]
   }));
 
   const dataWithColors = data.map((d) => ({
@@ -34,8 +33,8 @@ export default function BasicRadarChart(props) {
   const filteredSelectedData = dataWithColors.filter(d => selectedValues.includes(d.name));
   const handleLegendClick = (value) => {
     selectedValues.includes(value)
-      ? selectValues(selectedValues.filter((v) => v !== value))
-      : selectValues([...selectedValues, value]);
+    ? selectValues(selectedValues.filter((v) => v !== value))
+    : selectValues([...selectedValues, value]);
   };
 
   const getValues = (name) => {
@@ -58,7 +57,7 @@ export default function BasicRadarChart(props) {
         margin={{ left: 100, right: 100, top: 100, bottom: 100 }}
         style={{
           polygons: {
-            strokeWidth: 1,
+            strokeWidth: 3,
             strokeOpacity: 1,
             fillOpacity: 0.5
           },
@@ -98,12 +97,14 @@ export default function BasicRadarChart(props) {
       {hoveredCell && hoveredCell.name && getValues(hoveredCell.name) && (
         <div className={styles.tooltip}>
           <div className={styles.tooltipTitle}>{hoveredCell.name}</div>
-          {sortBy(getValues(hoveredCell.name), 'value').reverse().map((s) => (
-            <div key={s.skill} className={styles.tooltipItem}>
-              <span>{s.skill}</span>
-              <span>{s.value}</span>
-            </div>
-          ))}
+          {sortBy(getValues(hoveredCell.name), 'value')
+            .reverse()
+            .map((s) => (
+              <div key={s.skill} className={styles.tooltipItem}>
+                <span>{s.skill}</span>
+                <span>{s.value}</span>
+              </div>
+            ))}
         </div>
       )}
     </div>

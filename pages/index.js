@@ -7,7 +7,7 @@ import groupBy from 'lodash/groupBy';
 import trim from 'lodash/trim';
 import capitalize from 'lodash/capitalize';
 import dynamic from 'next/dynamic';
-import { uniqBy } from 'lodash';
+import uniqBy from 'lodash/uniqBy';
 import cx from 'classnames';
 const Radar = dynamic(() => import('../components/radar/radar'));
 
@@ -54,8 +54,7 @@ Object.keys(groupedSkills).forEach((skill) => {
   });
 });
 const groupedSkillsBySkill = groupBy(totalSkills, 'skill');
-
-const uniqueSkills = uniqBy(allSkills, 'skill');
+const uniqueSkills = uniqBy(allSkills, (v) => [v.skill, v.category].join());
 const categorySkills = groupBy(uniqueSkills, 'category');
 
 const SkilledNames = ({ selectedSkill, value }) => {
@@ -166,7 +165,7 @@ export default function Home() {
             name="skill"
             id="skill"
             onChange={(v) =>
-              console.log(v.target.value) || selectSkill(v.target.value)
+              selectSkill(v.target.value)
             }
           />
           <datalist id="skills">
