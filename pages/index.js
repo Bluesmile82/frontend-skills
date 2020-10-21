@@ -151,6 +151,7 @@ export default function Home() {
           height={600}
           data={skillData}
           skills={filteredSkills}
+          isUnfiltered={!selectedSection && !selectedCategory}
         />
         <div className={styles.description}>
           <ul>
@@ -169,9 +170,7 @@ export default function Home() {
             list="skills"
             name="skill"
             id="skill"
-            onChange={(v) =>
-              selectSkill(v.target.value)
-            }
+            onChange={(v) => selectSkill(v.target.value)}
           />
           <datalist id="skills">
             {uniqueSkills

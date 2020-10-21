@@ -16,7 +16,7 @@ const colors = {
 };
 
 export default function BasicRadarChart(props) {
-  const { width, height, data, skills } = props;
+  const { width, height, data, skills, isUnfiltered } = props;
   const [selectedValues, selectValues] = useState(data.map(d => d.name));
   const [hoveredCell, setHoveredCell] = useState(null);
   const domainNames = skills.map(s => s.skill);
@@ -60,7 +60,6 @@ export default function BasicRadarChart(props) {
     })
     return updatedValueData;
   });
-
   return (
     <div className={styles.radar}>
       <RadarChart
@@ -76,6 +75,9 @@ export default function BasicRadarChart(props) {
             strokeWidth: 3,
             strokeOpacity: 1,
             fillOpacity: 0.5
+          },
+          labels: {
+            fontSize: isUnfiltered ? 8 : 12
           },
           axes: {
             line: {
