@@ -45,10 +45,19 @@ export default function BasicRadarChart(props) {
       .filter((d) => domainNames.includes(d))
       .map((skill) => ({ skill, value: valueData[skill] }));
   }
+  const completeDataWithZeros = filteredSelectedData.map(valueData => {
+    const updatedValueData = { ...valueData };
+    domainNames.forEach(name => {
+      if (!valueData[name]) {
+        updatedValueData[name] = 0;
+      }
+    })
+    return updatedValueData;
+  })
   return (
     <div className={styles.radar}>
       <RadarChart
-        data={filteredSelectedData}
+        data={completeDataWithZeros}
         tickFormat={format('d')}
         startingAngle={0}
         domains={domains}
