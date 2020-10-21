@@ -22,7 +22,7 @@ export default function BasicRadarChart(props) {
   const domainNames = skills.map(s => s.skill);
   const domains = domainNames.map((skill) => ({
     name: skill,
-    domain: [0, 14]
+    domain: [0, 11]
   }));
 
   const dataWithColors = data.map((d) => ({

@@ -20,13 +20,18 @@ data.forEach(d => {
   Object.keys(d).forEach((currentKey) => {
     const match = currentKey.match(regex);
     const category = match && parseText(match[1]);
-    const skill = match && parseText(match[2]);
+    let skill = match && parseText(match[2]);
+    if (!skill) return;
     const value = d[currentKey]
       .split(',')
       .map(parseText);
-    if (skill) {
-      allSkills.push({ skill, category });
+    const existingSkills = allSkills.filter(s => s.skill === skill);
+    const isSameSkillDifferentCategory = existingSkills.length && !existingSkills.find(s => s.category === category);
+    if (isSameSkillDifferentCategory) {
+      skill = `${skill} (${category})`;
     }
+
+    allSkills.push({ skill, category });
 
     value.forEach(v => {
       if (v && skill) {
