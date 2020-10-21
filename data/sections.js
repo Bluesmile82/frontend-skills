@@ -7,7 +7,7 @@ export const SECTIONS = {
 export const sectionCategories = {
   presentational: SECTIONS.core,
   connections: SECTIONS.core,
-  'git and repositories management': SECTIONS.core,
+  'git and repo/packages management': SECTIONS.core,
   'building and automation tools': SECTIONS.core,
   javascript: SECTIONS.core,
   'front end frameworks / libraries': SECTIONS.core,
