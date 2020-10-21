@@ -37,6 +37,11 @@ export default function BasicRadarChart(props) {
     : selectValues([...selectedValues, value]);
   };
 
+  if (domains.length === 1) {
+    domains.push({ name: '', domain: [0, 11] });
+    domainNames.push('')
+  }
+
   const getValues = (name) => {
     const valueData = filteredSelectedData.find(d => d.name === name);
     const domainNames = domains.map(d => d.name);
@@ -45,6 +50,7 @@ export default function BasicRadarChart(props) {
       .filter((d) => domainNames.includes(d))
       .map((skill) => ({ skill, value: valueData[skill] }));
   }
+
   const completeDataWithZeros = filteredSelectedData.map(valueData => {
     const updatedValueData = { ...valueData };
     domainNames.forEach(name => {
@@ -53,7 +59,8 @@ export default function BasicRadarChart(props) {
       }
     })
     return updatedValueData;
-  })
+  });
+
   return (
     <div className={styles.radar}>
       <RadarChart
