@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { format } from 'd3-format';
 import sortBy from 'lodash/sortBy';
+import capitalize from 'lodash/capitalize';
 import { RadarChart } from 'react-vis';
 import styles from './radar.module.scss';
 import cx from 'classnames';
@@ -77,7 +78,7 @@ export default function BasicRadarChart(props) {
             fillOpacity: 0.5
           },
           labels: {
-            fontSize: isUnfiltered ? 8 : 12
+            fontSize: isUnfiltered ? 8 : 12,
           },
           axes: {
             line: {
@@ -95,6 +96,7 @@ export default function BasicRadarChart(props) {
         onSeriesMouseOut={() => setHoveredCell(null)}
       />
       <div className={styles.legend}>
+        <p>Click to toggle legend items</p>
         {dataWithColors.map((d) => (
           <div className={styles.legendItem}>
             <span
@@ -107,7 +109,7 @@ export default function BasicRadarChart(props) {
               })}
               onClick={() => handleLegendClick(d.name)}
             >
-              {d.name}
+              {capitalize(d.name)}
             </button>
           </div>
         ))}
