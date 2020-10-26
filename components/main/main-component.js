@@ -118,6 +118,9 @@ export default function BasicRadarChart(props) {
       <div className={styles.skillNames}>
         <SkilledNames selectedSkill={selectedSkill} value={'expert'} />
         <SkilledNames selectedSkill={selectedSkill} value={'competent'} />
+        <SkilledNames selectedSkill={selectedSkill} value={'basic knowledge'} />
+        <SkilledNames selectedSkill={selectedSkill} value={'no knowledge'} />
+        <SkilledNames selectedSkill={selectedSkill} value={'learning'} />
         <SkilledNames selectedSkill={selectedSkill} value={'want to learn'} />
         <SkilledNames selectedSkill={selectedSkill} value={'not interested'} />
       </div>
