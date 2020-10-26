@@ -9,7 +9,7 @@ export default function Home() {
   return (
     <div className={styles.container}>
       <Head>
-        <title>Vizzuality frontend</title>
+        <title>Vizzuality frontend skills</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Main />

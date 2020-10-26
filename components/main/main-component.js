@@ -99,7 +99,7 @@ export default function BasicRadarChart(props) {
       />
       <div className={styles.skillSection}>
         <label for="skill" className={styles.skillLabel}>
-          Choose a skill:
+          Choose a skill
         </label>
         <input
           list="skills"
