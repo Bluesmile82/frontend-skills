@@ -1,15 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import capitalize from 'lodash/capitalize';
 import { SECTIONS, sectionCategories } from '../../data/sections';
 import cx from 'classnames';
 import dynamic from 'next/dynamic';
+import ReactGA from 'react-ga';
 
 import styles from '../../styles/Home.module.scss';
 
 const Radar = dynamic(() => import('../radar/radar'));
+const createAnalyticsEvent = ({ category, action }) => ReactGA.event({
+  category,
+  action
+});
 
 export default function BasicRadarChart(props) {
   const { uniqueSkills, groupedSkillsBySkill, categorySkills, skillData } = props;
+  useEffect(() => {
+    ReactGA.initialize('G-11M6FDTLKM', { debug: true });
+  }, []);
+
 
   const [selectedCategory, selectCategory] = useState(null);
   const [selectedSection, selectSection] = useState(null);
@@ -55,6 +64,7 @@ export default function BasicRadarChart(props) {
   return (
     <main className={styles.main}>
       <h1 className={styles.title}>Vizzuality Frontend skills</h1>
+      <p>Data registered on 22 June 2020</p>
       <div className={styles.sections}>
         {categorySkills &&
           Object.keys(SECTIONS).map((section) => (
@@ -63,9 +73,13 @@ export default function BasicRadarChart(props) {
                 className={cx(styles.sectionTitle, {
                   [styles.blue]: section === selectedSection
                 })}
-                onClick={() =>
-                  selectSection(selectedSection === section ? null : section)
-                }
+                onClick={() => {
+                  createAnalyticsEvent({
+                    category: 'Section',
+                    action: section
+                  });
+                  selectSection(selectedSection === section ? null : section);
+                }}
               >
                 {section}
               </button>
@@ -77,11 +91,15 @@ export default function BasicRadarChart(props) {
                       className={cx({
                         [styles.blue]: category === selectedCategory
                       })}
-                      onClick={() =>
+                      onClick={() => {
+                        createAnalyticsEvent({
+                          category: 'Category',
+                          action: category
+                        });
                         selectCategory(
                           selectedCategory === category ? null : category
-                        )
-                      }
+                        );
+                      }}
                     >
                       {category}
                     </button>
@@ -105,7 +123,13 @@ export default function BasicRadarChart(props) {
           list="skills"
           name="skill"
           id="skill"
-          onChange={(v) => selectSkill(v.target.value)}
+          onChange={(v) => {
+            const skill = v.target.value;
+            if (uniqueSkills.map((s) => s.skill).includes(skill)) {
+              createAnalyticsEvent({ category: 'Skill', action: skill });
+            }
+            selectSkill(skill);
+          }}
         />
         <datalist id="skills">
           {uniqueSkills

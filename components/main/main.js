@@ -62,7 +62,6 @@ function MainContainer() {
     groupedSkillsBySkill,
     categorySkills
   };
-  console.log(dataProps)
   return createElement(MainComponent, dataProps);
 }
 
